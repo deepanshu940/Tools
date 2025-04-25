@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Free online image compression tool to reduce file size with adjustable quality settings." />
+  <meta name="keywords" content="image compressor, online tool, compress image, reduce image size, jpg compression, png optimization" />
+  <meta name="author" content="YourSiteName" />
+  <title>Online Image Compressor - Optimize Your Images Instantly</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f8f9fa;
+    }
+    header, main, footer {
+      max-width: 960px;
+      margin: auto;
+      padding: 1rem;
+    }
+    .container {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    input[type="file"] {
+      margin-bottom: 1rem;
+    }
+    .ads {
+      margin: 2rem 0;
+      text-align: center;
+    }
+    @media (max-width: 600px) {
+      .container {
+        padding: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Online Image Compressor</h1>
+    <p>Upload an image and select the compression level to reduce file size.</p>
+  </header>
+
+  <main>
+    <div class="container">
+      <input type="file" id="imageInput" accept="image/*" />
+      <label for="qualityRange">Compression Quality (Low = More Compression):</label>
+      <input type="range" id="qualityRange" min="10" max="100" value="80" />
+      <button onclick="compressImage()">Compress Image</button>
+      <div id="output"></div>
+    </div>
+
+    <div class="ads">
+      <!-- Google AdSense Ad Unit -->
+      <ins class="adsbygoogle"
+        style="display:block"
+        data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+        data-ad-slot="XXXXXXXXXX"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+      <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Online Image Compressor. All rights reserved.</p>
+  </footer>
+
+  <script>
+    function compressImage() {
+      const input = document.getElementById('imageInput');
+      const quality = document.getElementById('qualityRange').value;
+      const output = document.getElementById('output');
+      output.innerHTML = '';
+
+      if (!input.files.length) {
+        alert('Please select an image.');
+        return;
+      }
+
+      const file = input.files[0];
+      const reader = new FileReader();
+
+      reader.onload = function(event) {
+        const img = new Image();
+        img.src = event.target.result;
+
+        img.onload = function() {
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
+
+          canvas.width = img.width;
+          canvas.height = img.height;
+          ctx.drawImage(img, 0, 0);
+
+          canvas.toBlob(function(blob) {
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'compressed-image.jpg';
+            link.textContent = 'Download Compressed Image';
+            output.appendChild(link);
+          }, 'image/jpeg', quality / 100);
+        };
+      };
+
+      reader.readAsDataURL(file);
+    }
+  </script>
+</body>
+</html>
